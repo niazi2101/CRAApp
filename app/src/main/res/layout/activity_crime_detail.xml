@@ -1,0 +1,114 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context="com.iiui.craapp.activity.CrimeDetailActivity">
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@color/colorMainBackground">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Crime Description:"            android:layout_alignParentTop="true"
+            android:id="@+id/tvCrimeDescHeader"
+            style="@style/App_HeadingTextStyle"/>
+
+        <TextView
+            android:layout_centerHorizontal="true"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/tvCrimeDescHeader"
+            android:text="Desciption will be displayed on this line"
+            android:id="@+id/tvCrimeDesc"
+            style="App_DescriptionsTextStyle"/>
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Crime Type:"
+            android:id="@+id/tvCrimeTypeHeader"
+            android:layout_below="@id/tvCrimeDesc"
+
+            style="@style/App_HeadingTextStyle"/>
+
+        <TextView
+            android:textSize="@dimen/normaltext"
+            android:layout_centerHorizontal="true"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/tvCrimeTypeHeader"
+            android:text="Type of Crime will be displayed on this line"
+            android:id="@+id/tvCrimeType"
+            style="App_DescriptionsTextStyle"
+            />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Address:"
+           style="@style/App_HeadingTextStyle"
+            android:id="@+id/tvCrimeLocationHeader"
+            android:layout_below="@id/tvCrimeType"
+            android:fontFamily="bold"/>
+
+        <TextView
+            android:textSize="@dimen/normaltext"
+            android:layout_centerHorizontal="true"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/tvCrimeLocationHeader"
+            android:text="Address of Crime will be displayed on this line"
+            android:id="@+id/tvCrimeLocation"
+            style="App_DescriptionsTextStyle"/>
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Date and Time:"
+            style="@style/App_HeadingTextStyle"
+            android:id="@+id/tvCrimeDatetimeHeader"
+            android:layout_below="@id/tvCrimeLocation"
+            android:fontFamily="bold"/>
+
+        <TextView
+            android:textSize="@dimen/normaltext"
+            android:layout_centerHorizontal="true"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/tvCrimeDatetimeHeader"
+            android:text="Datetime of Crime will be displayed on this line"
+            android:id="@+id/tvCrimeDatetime"
+            style="App_DescriptionsTextStyle"/>
+
+    </RelativeLayout>
+
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:layout_centerVertical="true"
+        android:layout_alignParentBottom="true">
+
+        <Button
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Skip Case"
+
+            />
+
+        <Button
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Take Case"
+            android:background="@color/colorButtonSuccess"
+
+            />
+
+    </LinearLayout>
+</RelativeLayout>
