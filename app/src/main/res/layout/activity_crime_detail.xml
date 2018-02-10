@@ -8,8 +8,9 @@
 
     <RelativeLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:background="@color/colorMainBackground">
+        android:layout_height="match_parent"
+        android:layout_above="@id/linearButtonLayout"
+        android:background="@color/colorWhiteB">
 
         <TextView
             android:layout_width="wrap_content"
@@ -21,6 +22,7 @@
         <TextView
             android:layout_centerHorizontal="true"
             android:layout_width="wrap_content"
+
             android:layout_height="wrap_content"
             android:layout_below="@+id/tvCrimeDescHeader"
             android:text="Desciption will be displayed on this line"
@@ -92,6 +94,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="horizontal"
+        android:id="@+id/linearButtonLayout"
         android:layout_centerVertical="true"
         android:layout_alignParentBottom="true">
 
@@ -99,14 +102,13 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="Skip Case"
-
             />
 
         <Button
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:text="Take Case"
-            android:background="@color/colorButtonSuccess"
+            android:background="@drawable/roundedbutton"
 
             />
 

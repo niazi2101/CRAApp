@@ -1,0 +1,185 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+
+    tools:context="com.iiui.craapp.activity.ReportActivity">
+
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:id="@+id/scrollViewReport"
+        android:layout_above="@id/linearbottom"
+        android:layout_alignParentTop="true">
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:background="@color/colorWhiteB">
+
+            <TextView
+                android:id="@+id/tvReportSceneHeader"
+                style="@style/App_HeadingTextStyle"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentTop="true"
+                android:text="Describe the Scene:" />
+
+            <EditText
+                android:id="@+id/tvCrimeDesc"
+                style="EditTextStyle"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+
+                android:layout_below="@+id/tvReportSceneHeader"
+                android:gravity="top|start"
+                android:hint="Describe the crime in best way possible"
+                android:inputType="textMultiLine"
+                android:lines="4" />
+
+            <TextView
+                android:id="@+id/tvReportVictomHeader"
+                style="@style/App_HeadingTextStyle"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/tvCrimeDesc"
+
+                android:text="Any Victoms:" />
+
+            <EditText
+                android:id="@+id/tvReportVictomDetail"
+                style="EditTextStyle"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/tvReportVictomHeader"
+                android:gravity="top|start"
+                android:hint="Is there any human vitom at the scene?"
+                android:inputType="textMultiLine"
+                android:lines="2" />
+
+            <TextView
+                android:id="@+id/tvReportWitness"
+                style="@style/App_HeadingTextStyle"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/tvReportVictomDetail"
+                android:text="Any Witnesses?" />
+
+
+            <EditText
+                android:id="@+id/tvReportWitnessDetail"
+                style="EditTextStyle"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/tvReportWitness"
+                android:gravity="top|start"
+                android:hint="Are there any witnesses, if yes how many?"
+                android:inputType="textMultiLine"
+                android:lines="2" />
+
+            <TextView
+                android:id="@+id/tvReportSuspect"
+                style="@style/App_HeadingTextStyle"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/tvReportWitnessDetail"
+                android:text="Any Suspects?" />
+
+
+            <EditText
+                android:id="@+id/tvReportSuspectDetail"
+                style="EditTextStyle"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/tvReportSuspect"
+                android:gravity="top|start"
+                android:hint="How many suspects(if any)?"
+                android:inputType="textMultiLine"
+                android:lines="2" />
+
+            <!-- To display picture taken -->
+            <ImageView
+                android:id="@+id/imgPreview"
+                android:contentDescription="Image will be displayed here"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/tvReportSuspectDetail"
+                android:layout_alignParentBottom="true"
+                android:visibility="visible" />
+
+        </RelativeLayout>
+    </ScrollView>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:layout_alignParentBottom="true"
+        android:id="@+id/linearbottom">
+
+        <!-- Layout to hold camera buttons -->
+        <LinearLayout
+            android:id="@+id/linearCameraButtonHolder"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_above="@id/linearButtonLayout"
+            android:layout_alignParentBottom="true"
+            android:layout_centerVertical="true"
+            android:layout_margin="2dp"
+            android:orientation="horizontal">
+
+            <Button
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Video"
+
+                android:id="@+id/btnCaptureVideo"
+
+                />
+
+            <Button
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@drawable/roundedbutton"
+                android:text="Camera"
+                android:id="@+id/btnCapturePicture"
+
+                />
+
+        </LinearLayout>
+
+
+        <!-- View to hold submit buttons -->
+        <LinearLayout
+            android:id="@+id/linearButtonLayout"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_alignParentBottom="true"
+            android:layout_centerVertical="true"
+            android:orientation="horizontal">
+
+            <Button
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Skip Case"
+
+
+                />
+
+            <Button
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@drawable/roundedbutton"
+                android:text="Submit"
+
+                />
+
+        </LinearLayout>
+
+
+    </LinearLayout>
+
+
+</RelativeLayout>
