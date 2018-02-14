@@ -99,13 +99,26 @@
                 android:inputType="textMultiLine"
                 android:lines="2" />
 
+
+
             <!-- To display picture taken -->
+            <TextView
+                android:id="@+id/tvImage"
+                style="@style/App_HeadingTextStyle"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/tvReportSuspectDetail"
+                android:text="Images" />
+
+
+
             <ImageView
                 android:id="@+id/imgPreview"
                 android:contentDescription="Image will be displayed here"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_below="@id/tvReportSuspectDetail"
+
+                android:layout_below="@id/tvImage"
                 android:layout_alignParentBottom="true"
                 android:visibility="visible" />
 
@@ -173,6 +186,7 @@
                 android:layout_height="wrap_content"
                 android:background="@drawable/roundedbutton"
                 android:text="Submit"
+                android:onClick="sendFilesToServer"
 
                 />
 
