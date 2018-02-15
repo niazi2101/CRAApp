@@ -16,7 +16,7 @@
 
         <RelativeLayout
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
+            android:layout_height="wrap_content"
             android:background="@color/colorWhiteB">
 
             <TextView
@@ -28,13 +28,14 @@
                 android:text="Describe the Scene:" />
 
             <EditText
-                android:id="@+id/tvCrimeDesc"
+                android:id="@+id/tvReportDesc"
                 style="EditTextStyle"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
 
                 android:layout_below="@+id/tvReportSceneHeader"
                 android:gravity="top|start"
+                android:text="This is sample description.It being sent to the REST API for testing. Along with all other information."
                 android:hint="Describe the crime in best way possible"
                 android:inputType="textMultiLine"
                 android:lines="4" />
@@ -44,12 +45,12 @@
                 style="@style/App_HeadingTextStyle"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_below="@id/tvCrimeDesc"
+                android:layout_below="@id/tvReportDesc"
 
                 android:text="Any Victoms:" />
 
             <EditText
-                android:id="@+id/tvReportVictomDetail"
+                android:id="@+id/tvReportNumOfVictoms"
                 style="EditTextStyle"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -64,12 +65,12 @@
                 style="@style/App_HeadingTextStyle"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_below="@id/tvReportVictomDetail"
+                android:layout_below="@id/tvReportNumOfVictoms"
                 android:text="Any Witnesses?" />
 
 
             <EditText
-                android:id="@+id/tvReportWitnessDetail"
+                android:id="@+id/tvReportNumOfWitness"
                 style="EditTextStyle"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -84,12 +85,12 @@
                 style="@style/App_HeadingTextStyle"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_below="@id/tvReportWitnessDetail"
+                android:layout_below="@id/tvReportNumOfWitness"
                 android:text="Any Suspects?" />
 
 
             <EditText
-                android:id="@+id/tvReportSuspectDetail"
+                android:id="@+id/tvReportNumOfSuspect"
                 style="EditTextStyle"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -107,7 +108,7 @@
                 style="@style/App_HeadingTextStyle"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_below="@id/tvReportSuspectDetail"
+                android:layout_below="@id/tvReportNumOfSuspect"
                 android:text="Images" />
 
 
@@ -115,12 +116,21 @@
             <ImageView
                 android:id="@+id/imgPreview"
                 android:contentDescription="Image will be displayed here"
-                android:layout_width="wrap_content"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
 
                 android:layout_below="@id/tvImage"
-                android:layout_alignParentBottom="true"
+
                 android:visibility="visible" />
+
+            <TextView
+                android:id="@+id/tvResponse"
+                style="@style/App_HeadingTextStyle"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentBottom="true"
+                android:layout_below="@id/imgPreview"
+                android:text="Response" />
 
         </RelativeLayout>
     </ScrollView>

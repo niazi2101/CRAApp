@@ -7,7 +7,7 @@ import android.view.View;
 import android.widget.TextView;
 
 import com.iiui.craapp.R;
-import com.iiui.craapp.model.CrimeDescriptionTable;
+import com.iiui.craapp.model.CrimeModelClass;
 
 import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpHeaders;
@@ -37,9 +37,9 @@ public class CrimeDetailActivity extends AppCompatActivity {
     // It is called using HttpRequestTask.execute() method
     // Responsible to GET a single object from provided link
     // Also requires Authentication
-    private class HttpRequestTask extends AsyncTask<Void, Void, ResponseEntity<CrimeDescriptionTable>> {
+    private class HttpRequestTask extends AsyncTask<Void, Void, ResponseEntity<CrimeModelClass>> {
         @Override
-        protected ResponseEntity<CrimeDescriptionTable> doInBackground(Void... params) {
+        protected ResponseEntity<CrimeModelClass> doInBackground(Void... params) {
 
                 //URL of the REST API GET method
                 final String url = "http://192.168.56.1:45455/api/Crime/2";
@@ -60,7 +60,7 @@ public class CrimeDetailActivity extends AppCompatActivity {
                 // It will take a URL, a method (GET,POST,PUT,DELETE), an entity(for parameters)
                 // and a class for storing received data
                 // It will return response which we can then use in onPostExecute method
-                ResponseEntity<CrimeDescriptionTable> responseEntity = restTemplate.exchange(url, HttpMethod.GET, entity, CrimeDescriptionTable.class);
+                ResponseEntity<CrimeModelClass> responseEntity = restTemplate.exchange(url, HttpMethod.GET, entity, CrimeModelClass.class);
                 return responseEntity;
 
 
@@ -69,14 +69,14 @@ public class CrimeDetailActivity extends AppCompatActivity {
         }
 
         @Override
-        protected void onPostExecute(ResponseEntity<CrimeDescriptionTable> crimeReturned) {
+        protected void onPostExecute(ResponseEntity<CrimeModelClass> crimeReturned) {
             TextView tvCrimeDescription =  findViewById(R.id.tvCrimeDesc);
             TextView tvCrimeType =  findViewById(R.id.tvCrimeType);
             TextView tvCrimeDateTime =  findViewById(R.id.tvCrimeDatetime);
             TextView tvCrimeAddress =  findViewById(R.id.tvCrimeLocation);
 
             // getBody() function is used to convert ResponseEntity into normal object
-            CrimeDescriptionTable crime = crimeReturned.getBody();
+            CrimeModelClass crime = crimeReturned.getBody();
 
             //Display
             /*

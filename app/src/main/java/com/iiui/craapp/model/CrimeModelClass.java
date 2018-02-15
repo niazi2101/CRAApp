@@ -8,7 +8,7 @@ import java.util.Date;
  * Created by hknia on 2/7/2018.
  */
 
-public class CrimeDescriptionTable {
+public class CrimeModelClass {
     public int crimeID ;
 
     public String crimeDescription ;

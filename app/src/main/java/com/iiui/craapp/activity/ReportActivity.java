@@ -18,6 +18,7 @@ import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
+import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -25,6 +26,7 @@ import android.widget.VideoView;
 
 import com.iiui.craapp.BuildConfig;
 import com.iiui.craapp.R;
+import com.iiui.craapp.model.ReportModelClass;
 import com.iiui.craapp.util.UtilClass;
 
 import org.springframework.core.io.ClassPathResource;
@@ -36,6 +38,7 @@ import org.springframework.http.HttpMethod;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.http.converter.FormHttpMessageConverter;
+import org.springframework.http.converter.ResourceHttpMessageConverter;
 import org.springframework.http.converter.json.MappingJackson2HttpMessageConverter;
 import org.springframework.util.LinkedMultiValueMap;
 import org.springframework.util.MultiValueMap;
@@ -418,6 +421,30 @@ public class ReportActivity extends AppCompatActivity {
             return arrayFiles;
         }
 
+        //Function to recieve input from user and store it in object
+        private ReportModelClass recieveInputFromUser()
+        {
+            EditText etReportDesc = (EditText) findViewById(R.id.tvReportDesc);
+            EditText etNumOfVictoms = (EditText) findViewById(R.id.tvReportNumOfVictoms);
+            EditText etNumOfWitness = (EditText) findViewById(R.id.tvReportNumOfWitness);
+            EditText etNumOfSuspects = (EditText) findViewById(R.id.tvReportNumOfSuspect);
+            //EditText etNumOfSuspects = (EditText) findViewById(R.id.tvReportNumOfSuspect);
+
+            ReportModelClass reportModelClass = new ReportModelClass();
+
+            reportModelClass.setReportDesc(etReportDesc.getText().toString());
+            reportModelClass.setNumOfVictoms(etNumOfVictoms.getText().toString());
+            reportModelClass.setNumOfWitness(etNumOfWitness.getText().toString());
+            reportModelClass.setSuspects(etNumOfSuspects.getText().toString());
+            //reportModelClass.setReportDesc(etReportDesc.getText().toString());
+
+
+
+            return reportModelClass;
+        }
+
+
+
         @Override
         protected void onPreExecute() {
 
@@ -465,10 +492,29 @@ public class ReportActivity extends AppCompatActivity {
                     imgPreview.setImageBitmap(bitmap);
                     */
 
+                    String timeStamp = new SimpleDateFormat("yy.MM.dd_HH.mm.ss", Locale.getDefault()).format(new Date());
+
+
+                    //Taking Input from User
+                    ReportModelClass report = recieveInputFromUser();
+
                     formData = new LinkedMultiValueMap<String, Object>();
 
+/*  Trying to send object with files
                     formData.add("File", new FileSystemResource(file));
+                    formData.add("Object", report);
                     formData.add("ClientDocs", "ClientDocs");
+*/
+                    // Sending all fields separately
+                    formData.add("File", new FileSystemResource(file));
+                    formData.add("ReportDesc", report.getReportDesc());
+                    //for
+                    formData.add("NumOfVictoms", report.getNumOfVictoms());
+                    formData.add("NumOfWitness", report.getNumOfWitness());
+                    formData.add("NumOfSuspects", report.getSuspects());
+                    formData.add("ReportSubmitTime", timeStamp.toString());
+                    formData.add("ClientDocs", "ClientDocs");
+
                 }catch(Exception ef)
                 {
                     Log.e("Error", ef.toString());
@@ -503,6 +549,8 @@ public class ReportActivity extends AppCompatActivity {
                 // Create a new RestTemplate instance
                 RestTemplate restTemplate = new RestTemplate(true);
                 restTemplate.getMessageConverters().add(new MappingJackson2HttpMessageConverter());
+                restTemplate.getMessageConverters().add(new ResourceHttpMessageConverter());
+
                 restTemplate.getMessageConverters().add(new FormHttpMessageConverter());
                 //restTemplate.getMessageConverters().add(new Conver);
 
@@ -513,9 +561,10 @@ public class ReportActivity extends AppCompatActivity {
 
                 Log.i("Response from Server", response.toString());
 
+                String headerResponse = response.getHeaders().get("DocsUrl").toString();
 
                 // Return the response body to display to the user
-                return response.getBody();
+                return response.getStatusCode().getReasonPhrase();
             } catch (Exception e) {
                 Log.e("Error with background", e.toString());
             }
@@ -531,6 +580,9 @@ public class ReportActivity extends AppCompatActivity {
 
 //          Log.i("Response: ", result);
             showResult(result);
+            TextView tvResponse = (TextView) findViewById(R.id.tvResponse);
+            tvResponse.setText("Response: " + result);
+            tvResponse.setFocusable(true);
 
         }
 
