@@ -7,9 +7,9 @@ package com.iiui.craapp.model;
 public class ReportModelClass {
 
     private String ReportDesc;
-    private String NumOfVictoms;
-    private String NumOfWitness;
-    private String Suspects;
+    private String NumOfVictoms = "0";
+    private String NumOfWitness = "0";
+    private String Suspects = "0";
     private String ReportSubmitTime;
 
 

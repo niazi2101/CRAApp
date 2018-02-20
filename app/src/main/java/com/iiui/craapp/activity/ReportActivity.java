@@ -5,16 +5,21 @@ import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.media.AudioFormat;
+import android.media.MediaPlayer;
+import android.media.MediaRecorder;
 import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Environment;
 import android.os.StrictMode;
+import android.os.SystemClock;
 import android.provider.MediaStore;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.content.ContextCompat;
 import android.support.v4.content.FileProvider;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.text.TextUtils;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
@@ -24,6 +29,8 @@ import android.widget.TextView;
 import android.widget.Toast;
 import android.widget.VideoView;
 
+import com.emrekose.recordbutton.OnRecordListener;
+import com.emrekose.recordbutton.RecordButton;
 import com.iiui.craapp.BuildConfig;
 import com.iiui.craapp.R;
 import com.iiui.craapp.model.ReportModelClass;
@@ -51,6 +58,10 @@ import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.Locale;
+import java.util.Random;
+import java.util.Timer;
+import java.util.TimerTask;
+import java.util.concurrent.TimeUnit;
 
 public class ReportActivity extends AppCompatActivity {
 
@@ -66,11 +77,28 @@ public class ReportActivity extends AppCompatActivity {
     private Uri fileUri;
     private ImageView imgPreview;
     private VideoView videoPreview;
-    private Button btnCapturePicture,btnRecordVideo;
+    private Button btnCapturePicture,btnRecordVideo, btnStartRecording, btnStopRecording, btnPlayRecording, btnPauseRecording;
+    boolean PictureTaken = false;
 
     String mCurrentPhotoPath;   //to be used to view images
     String mCurrentPhotoPathForServer; //to be used to send files
 
+    //Attributes n Variables relating to audio
+    String AudioSavePathInDevice=null;
+    MediaRecorder mediaRecorder;
+    Random random;
+    String RandomAudioFileName="Audio";
+    public static final int RequestPermissionCode=1;
+    MediaPlayer mediaPlayer;
+
+    //timer
+    private long startTime = 0L;
+    private long finalTime = 0L; //to display length of recording
+    long timeInMilliseconds = 0L;
+    long timeSwapBuff = 0L;
+    long updatedTime = 0L;
+    private Timer timer;
+    TextView recordingTimer;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -78,15 +106,39 @@ public class ReportActivity extends AppCompatActivity {
         setContentView(R.layout.activity_report);
 
         imgPreview=(ImageView) findViewById(R.id.imgPreview);
-        //videoPreview=(VideoView) findViewById(R.id.videoPreview);
         btnCapturePicture=(Button) findViewById(R.id.btnCapturePicture);
         btnRecordVideo=(Button) findViewById(R.id.btnCaptureVideo);
+
+        //buttons for recording
+        btnStartRecording = (Button) findViewById(R.id.btnStartRecording);
+        btnStopRecording = (Button) findViewById(R.id.btnStopRecording);
+        btnPlayRecording = (Button) findViewById(R.id.btnPlayRecording);
+        btnPauseRecording = (Button) findViewById(R.id.btnPauseRecording);
+
+        recordingTimer = (TextView) findViewById(R.id.recordingTimer);
+
+
+
+
+        //hiding stop and pause button
+        btnStopRecording.setEnabled(false);
+        //btnStopRecording.setVisibility(View.INVISIBLE);
+
+        btnPauseRecording.setEnabled(false);
+        //btnStopRecording.setVisibility(View.INVISIBLE);
+
+        btnPlayRecording.setEnabled(false);
+        //btnStopRecording.setVisibility(View.INVISIBLE);
 
         /*
         StrictMode.VmPolicy.Builder builder = new StrictMode.VmPolicy.Builder();
         StrictMode.setVmPolicy(builder.build());
         builder.detectFileUriExposure();
 */
+
+
+
+
 
         //Capture image button click event
         btnCapturePicture.setOnClickListener(new View.OnClickListener() {
@@ -129,6 +181,131 @@ public class ReportActivity extends AppCompatActivity {
 
 
     }
+
+    //This function handles button clicks
+    public void buttonClickHandler(View view)
+    {
+        switch (view.getId())
+        {
+            case R.id.btnStartRecording:
+                startAudioRecording();
+                break;
+
+            case R.id.btnStopRecording:
+                Toast.makeText(getApplicationContext(),
+                        "Recording STOP",
+                        Toast.LENGTH_SHORT).show();
+
+                mediaRecorder.stop();
+
+                btnStopRecording.setEnabled(false);
+                btnPlayRecording.setEnabled(true);
+                btnStartRecording.setEnabled(true);
+
+                if (timer != null) {
+                    timer.cancel();
+                }
+
+                recordingTimer.setText("Recording Done: " + finalTime);
+                Toast.makeText(getApplicationContext(),"Time: " + finalTime,Toast.LENGTH_LONG).show();
+
+
+                break;
+
+            case R.id.btnPauseRecording:
+                Toast.makeText(getApplicationContext(),
+                        "Pause Recording",
+                        Toast.LENGTH_LONG).show();
+                break;
+
+            case R.id.btnPlayRecording:
+                Toast.makeText(getApplicationContext(),
+                        "Playing",
+                        Toast.LENGTH_SHORT).show();
+
+                recordingTimer.setText("Playing Audio");
+
+                btnStopRecording.setEnabled(false);
+                btnStartRecording.setEnabled(false);
+
+                mediaPlayer=new MediaPlayer();
+                try{
+                    mediaPlayer.setDataSource(AudioSavePathInDevice);
+                    mediaPlayer.prepare();
+                }catch (IOException e){
+                    e.printStackTrace();
+                }
+
+                mediaPlayer.start();
+
+                break;
+
+            default:
+                break;
+        }
+
+    }
+
+    // Create and handle media recorder functionality
+    public  void setMediaRecorderReady(){
+        //MediaRecorder class to record audio or video
+        mediaRecorder=new MediaRecorder();
+        //setting the source output and encoding format and output file.
+        mediaRecorder.setAudioSource(MediaRecorder.AudioSource.DEFAULT);
+        mediaRecorder.setOutputFormat(AudioFormat.ENCODING_PCM_16BIT);
+        mediaRecorder.setAudioEncoder(MediaRecorder.AudioEncoder.AAC);
+        mediaRecorder.setAudioChannels(1);
+        mediaRecorder.setAudioEncodingBitRate(128000);
+        mediaRecorder.setAudioSamplingRate(44100);
+        mediaRecorder.setOutputFile(AudioSavePathInDevice);
+    }
+
+    private void startAudioRecording()
+    {
+        String timeStamp = new SimpleDateFormat("yy.MM.dd_HH.mm.ss", Locale.getDefault()).format(new Date());
+        File mediaStorageDir = new File(Environment.getExternalStorageDirectory(),"CRA");
+
+        Log.i("getOutputMediaFile:mediaStorageDir ", mediaStorageDir.toString());
+        // Create the storage directory if it does not exist
+        if (!mediaStorageDir.exists()) {
+            if (!mediaStorageDir.mkdirs()) {
+                Log.e("Audio", "failed to create audio directory");
+
+            }
+
+            Log.i("Audio Success", "failed to create audio directory");
+        }
+
+        //AudioSavePathInDevice= Environment.getExternalStorageDirectory().getAbsolutePath()+"/" + "CRA" +"/"+"Audio_" + timeStamp + ".m4a";
+        AudioSavePathInDevice= mediaStorageDir +"/"+"Audio_" + timeStamp + ".wav";
+        Log.e("AudioSavePath: ", AudioSavePathInDevice);
+
+        setMediaRecorderReady(); //Creating and initializing media recorder object
+        try{
+            mediaRecorder.prepare();
+            mediaRecorder.start();
+
+            //Start Timer
+            startTime = SystemClock.uptimeMillis();
+            timer = new Timer();
+            MyTimerTask myTimerTask = new MyTimerTask();
+            timer.schedule(myTimerTask, 1000, 1000);
+
+            btnStartRecording.setEnabled(false);
+            btnStopRecording.setEnabled(true);
+
+            Toast.makeText(getApplicationContext(),
+                    "Recording Started",
+                    Toast.LENGTH_LONG).show();
+
+        }catch (Exception e){
+
+            e.printStackTrace();
+        }
+
+    }
+
+
 
     //Checking device has camera hardware or not
     private boolean isDeviceSupportCamera() {
@@ -366,7 +543,7 @@ public class ReportActivity extends AppCompatActivity {
         }
     }
 
-    public void sendFilesToServer(View view)
+    public void submitButtonClick(View view)
     {
         new SendFilesTask().execute();
         Toast.makeText(getApplicationContext(),
@@ -430,12 +607,26 @@ public class ReportActivity extends AppCompatActivity {
             EditText etNumOfSuspects = (EditText) findViewById(R.id.tvReportNumOfSuspect);
             //EditText etNumOfSuspects = (EditText) findViewById(R.id.tvReportNumOfSuspect);
 
+
+
             ReportModelClass reportModelClass = new ReportModelClass();
 
+
             reportModelClass.setReportDesc(etReportDesc.getText().toString());
-            reportModelClass.setNumOfVictoms(etNumOfVictoms.getText().toString());
-            reportModelClass.setNumOfWitness(etNumOfWitness.getText().toString());
-            reportModelClass.setSuspects(etNumOfSuspects.getText().toString());
+
+            //if fields are empty don't take input from them
+            if(!TextUtils.isEmpty(etNumOfVictoms.getText().toString())) {
+                reportModelClass.setNumOfVictoms(etNumOfVictoms.getText().toString());
+            }
+
+            if(!TextUtils.isEmpty(etNumOfWitness.getText().toString())) {
+                reportModelClass.setNumOfWitness(etNumOfWitness.getText().toString());
+            }
+
+            if(!TextUtils.isEmpty(etNumOfVictoms.getText().toString())) {
+
+                reportModelClass.setSuspects(etNumOfSuspects.getText().toString());
+            }
             //reportModelClass.setReportDesc(etReportDesc.getText().toString());
 
 
@@ -478,19 +669,53 @@ public class ReportActivity extends AppCompatActivity {
 
             //5. Return only one file name, latest
 
-            if(!mCurrentPhotoPath.isEmpty()) {
-
+           //Send data
                 try {
-                    Uri imageUri = Uri.parse(mCurrentPhotoPath);
-                    File file = new File(imageUri.getPath());
 
-                    Log.e("Async:Uri.getPath", imageUri.getPath());
+                    //Creating formData object which will be send to server containing Key Value pairs
+                    formData = new LinkedMultiValueMap<String, Object>();
 
-                    /*
-                    final Bitmap bitmap = BitmapFactory.decodeFile(file.getPath());
 
-                    imgPreview.setImageBitmap(bitmap);
-                    */
+                    //Check if picture not taken attach dummy picture
+                   /* if(false) {
+
+                        // /storage/emulated/0/Pictures/CRA/r18.02.20_09.10.30.png
+                        formData.add("File", new FileSystemResource(new File("/storage/emulated/0/Pictures/CRA/r18.02.20_09.10.30.png")));
+
+                        Toast.makeText(getApplicationContext(),"Picture NOT Attached", Toast.LENGTH_SHORT).show();
+                        Log.e("formData:Picture", "Picture NOT Attached");
+
+                    }
+                    else
+                    {
+*/
+                        //Attaching Image with FormData
+                        Uri imageUri = Uri.parse(mCurrentPhotoPath);
+                        File file = new File(imageUri.getPath());
+
+                        Log.e("Async:Uri.getPath", imageUri.getPath());
+
+                        //Attach pic with form data
+                        formData.add("File", new FileSystemResource(file));
+                        Toast.makeText(getApplicationContext(),"Picture Attached: " + file.getAbsolutePath(), Toast.LENGTH_SHORT).show();
+
+                        Log.e("formData:Picture", "Picture Attached");
+
+  //                  }
+
+                    //Attaching Audio with FormData
+                    Uri audioUri = Uri.parse(AudioSavePathInDevice);
+                    File fileAudio = new File(audioUri.getPath());
+
+                    Log.e("Async:Uri.audioPath", audioUri.getPath());
+
+                    //Attach pic with form data
+                    formData.add("File", new FileSystemResource(fileAudio));
+                    Toast.makeText(getApplicationContext(),"Audio Attached: " + file.getAbsolutePath(), Toast.LENGTH_SHORT).show();
+
+                    Log.e("formData:Picture", "Audio Attached");
+
+
 
                     String timeStamp = new SimpleDateFormat("yy.MM.dd_HH.mm.ss", Locale.getDefault()).format(new Date());
 
@@ -498,18 +723,10 @@ public class ReportActivity extends AppCompatActivity {
                     //Taking Input from User
                     ReportModelClass report = recieveInputFromUser();
 
-                    formData = new LinkedMultiValueMap<String, Object>();
 
-/*  Trying to send object with files
-                    formData.add("File", new FileSystemResource(file));
-                    formData.add("Object", report);
-                    formData.add("ClientDocs", "ClientDocs");
-*/
                     // Sending all fields separately
-                    formData.add("File", new FileSystemResource(file));
                     formData.add("ReportDesc", report.getReportDesc());
-                    //for
-                    formData.add("NumOfVictoms", report.getNumOfVictoms());
+                    formData.add("NumOfVictoms", report.getNumOfVictoms() );
                     formData.add("NumOfWitness", report.getNumOfWitness());
                     formData.add("NumOfSuspects", report.getSuspects());
                     formData.add("ReportSubmitTime", timeStamp.toString());
@@ -520,12 +737,8 @@ public class ReportActivity extends AppCompatActivity {
                     Log.e("Error", ef.toString());
                 }
 
-            }
-            else
-            {
-                Toast.makeText(getApplicationContext(),"Please take image first",Toast.LENGTH_LONG).show();
-                Log.e("mContextPhoto","***************** Please take image first");
-            }
+
+
 
         }
 
@@ -591,6 +804,54 @@ public class ReportActivity extends AppCompatActivity {
     }
 
 
+
+    //Used for timer
+    public static int dp(float value) {
+        return (int) Math.ceil(1 * value);
+    }
+
+    //User for timer
+    class MyTimerTask extends TimerTask {
+
+        @Override
+        public void run() {
+            timeInMilliseconds = SystemClock.uptimeMillis() - startTime;
+            updatedTime = timeSwapBuff + timeInMilliseconds;
+            final String hms = String.format(
+                    "%02d:%02d",
+                    TimeUnit.MILLISECONDS.toMinutes(updatedTime)
+                            - TimeUnit.HOURS.toMinutes(TimeUnit.MILLISECONDS
+                            .toHours(updatedTime)),
+                    TimeUnit.MILLISECONDS.toSeconds(updatedTime)
+                            - TimeUnit.MINUTES.toSeconds(TimeUnit.MILLISECONDS
+                            .toMinutes(updatedTime)));
+
+            long lastsec = TimeUnit.MILLISECONDS.toSeconds(updatedTime)
+                    - TimeUnit.MINUTES.toSeconds(TimeUnit.MILLISECONDS
+                    .toMinutes(updatedTime));
+
+
+            finalTime = lastsec;
+            //System.out.println(lastsec + " hms " + hms);
+
+            //Toast.makeText(getApplicationContext(),lastsec + " hms " + hms,Toast.LENGTH_LONG).show();
+
+
+            runOnUiThread(new Runnable() {
+
+                @Override
+                public void run() {
+                    try {
+                        if (recordingTimer != null)
+                            recordingTimer.setText("Recording: " + hms);
+                    } catch (Exception e) {
+                        // TODO: handle exception
+                    }
+
+                }
+            });
+        }
+    }
 
 
 }
