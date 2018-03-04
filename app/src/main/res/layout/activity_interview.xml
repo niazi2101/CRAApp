@@ -1,0 +1,493 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context="com.iiui.craapp.activity.InterviewActivity">
+
+
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:id="@+id/scrollViewReport"
+        android:layout_alignParentTop="true">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+
+            <RelativeLayout
+                android:id="@+id/layoutQuestionsRelative"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_gravity="top"
+                android:layout_margin="5dp"
+                android:padding="2dp"
+
+
+                android:background="@color/colorQues">
+
+
+                <TextView
+                    android:id="@+id/headingQuestion"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:padding="2dp"
+                    android:textColor="@color/colorBlue"
+                    android:background="@color/colorWhite"
+                    android:layout_alignParentTop="true"
+                    android:text="Basic Questions about the Crime Scene"
+                    android:textAlignment="center"
+                    android:textSize="@dimen/headingtext" />
+
+
+
+                <TextView
+                    android:id="@+id/tvReportSceneHeader"
+                    style="@style/App_HeadingTextStyle"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@id/headingQuestion"
+                    android:text="Describe the crime:" />
+
+                <EditText
+                    android:id="@+id/tvReportDesc"
+                    style="@style/EditTextStyle"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@+id/tvReportSceneHeader"
+                    android:gravity="top|start"
+                    android:hint="Ask the interview to describe what happened exactly"
+                    android:inputType="textMultiLine"
+                    android:lines="4" />
+
+                <TextView
+                    android:id="@+id/tvReportVictomHeader"
+                    style="@style/App_HeadingTextStyle"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@id/tvReportDesc"
+
+                    android:text="When did you arrived at the scene?" />
+
+                <EditText
+                    android:id="@+id/tvReportNumOfVictoms"
+                    style="@style/EditTextStyle"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@+id/tvReportVictomHeader"
+                    android:gravity="top|start"
+                    android:hint="Ask the interviewee when did arrived at the scene?"
+                    android:inputType="textMultiLine"
+                    android:lines="2" />
+
+                <TextView
+                    android:id="@+id/tvReportWitness"
+                    style="@style/App_HeadingTextStyle"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@id/tvReportNumOfVictoms"
+                    android:text="Were there any other Wintesses/Victoms at the Scene?" />
+
+
+                <EditText
+                    android:id="@+id/tvReportNumOfWitness"
+                    style="@style/EditTextStyle"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@+id/tvReportWitness"
+                    android:gravity="top|start"
+                    android:hint="Are there any witnesses, if yes how many?"
+                    android:inputType="textMultiLine"
+                    android:lines="2" />
+
+                <TextView
+                    android:id="@+id/tvReportSuspect"
+                    style="@style/App_HeadingTextStyle"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@id/tvReportNumOfWitness"
+                    android:text="Do you know any of the suspects that may be involved in this crime?" />
+
+
+                <EditText
+                    android:id="@+id/tvReportNumOfSuspect"
+                    style="@style/EditTextStyle"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@+id/tvReportSuspect"
+                    android:gravity="top|start"
+                    android:hint="How many suspects(if any)?"
+                    android:inputType="textMultiLine"
+                    android:lines="2"
+                    android:layout_marginBottom="10dp"
+                    />
+
+
+            </RelativeLayout>
+
+
+            <!-- Basic Info about Interviewee -->
+            <RelativeLayout
+                android:id="@+id/layoutInfoRelative"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_gravity="top"
+                android:layout_margin="5dp"
+                android:padding="2dp"
+                android:layout_marginTop="20dp"
+
+
+                android:background="@color/colorBasicInfo">
+
+
+                <TextView
+                    android:id="@+id/headingBasicInfo"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:padding="2dp"
+                    android:textColor="@color/colorBlue"
+                    android:background="@color/colorWhite"
+                    android:layout_alignParentTop="true"
+                    android:text="Basic Questions about the Crime Scene"
+                    android:textAlignment="center"
+                    android:textSize="@dimen/headingtext" />
+
+
+
+                <TextView
+                    android:id="@+id/tvType"
+                    style="@style/App_HeadingTextStyle"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@id/headingBasicInfo"
+                    android:text="Am I a Witness or Victim:" />
+
+                <Spinner
+                    android:id="@+id/tvTypeDesc"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@+id/tvType"
+                    android:background="@android:color/transparent"
+                    
+
+                    />
+
+                <TextView
+                    android:id="@+id/tvName"
+                    style="@style/App_HeadingTextStyle"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@id/tvTypeDesc"
+
+                    android:text="What is your Name?" />
+
+                <EditText
+                    android:id="@+id/tvNameDesc"
+                    style="@style/EditTextStyle"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@+id/tvName"
+                    android:gravity="top|start"
+                    android:hint="Ask full name"
+                    android:inputType="textMultiLine"
+                     />
+
+                <TextView
+                    android:id="@+id/tvPhone"
+                    style="@style/App_HeadingTextStyle"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@id/tvNameDesc"
+                    android:text="Your Contact Number?" />
+
+
+                <EditText
+                    android:id="@+id/tvPhoneDesc"
+                    style="@style/EditTextStyle"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@+id/tvPhone"
+                    android:gravity="top|start"
+                    android:hint="Ask for Phone Number"
+                    android:inputType="phone"
+                    android:lines="2" />
+
+                <TextView
+                    android:id="@+id/tvAddress"
+                    style="@style/App_HeadingTextStyle"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@id/tvPhoneDesc"
+                    android:text="Full Address?" />
+
+
+                <EditText
+                    android:id="@+id/tvAddressDesc"
+                    style="@style/EditTextStyle"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@+id/tvAddress"
+                    android:gravity="top|start"
+                    android:hint="Ask for full address"
+                    android:inputType="textMultiLine"
+                    android:lines="2"
+                    />
+
+                <TextView
+                    android:id="@+id/tvNIC"
+                    style="@style/App_HeadingTextStyle"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@id/tvAddressDesc"
+                    android:text="CNIC" />
+
+
+                <EditText
+                    android:id="@+id/tvNICDesc"
+                    style="@style/EditTextStyle"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@+id/tvNIC"
+                    android:gravity="top|start"
+                    android:hint="Ask for Natinal Identity or Any other reliable identity?"
+                    android:inputType="textMultiLine"
+                    android:lines="2"
+                    android:layout_marginBottom="10dp"
+                    />
+
+
+            </RelativeLayout>
+
+
+
+
+
+
+            <!-- Layout to hold audio buttons -->
+            <LinearLayout
+                android:id="@+id/layoutRecordingLinear"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_margin="5dp"
+                android:weightSum="2"
+                android:layout_below="@id/layoutQuestionsRelative"
+
+
+                android:background="@color/colorAccent"
+                android:orientation="vertical">
+
+                <LinearLayout
+                    android:id="@+id/linearRecordText"
+                    android:layout_height="wrap_content"
+                    android:layout_width="match_parent"
+                    android:layout_margin="2dp"
+                    android:layout_weight="1"
+                    android:layout_gravity="start"
+                    android:background="@color/colorWhiteB"
+                    android:orientation="horizontal">
+
+
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:padding="2dp"
+                        android:id="@+id/recordingTimer"
+                        android:textAlignment="center"
+                        android:text="Tap on START button to Start Recording(Optional)"
+                        android:textSize="@dimen/headingtext"
+                        />
+
+
+                </LinearLayout>
+
+
+                <LinearLayout
+                    android:id="@+id/linearRecordButtons"
+                    android:layout_height="wrap_content"
+                    android:layout_width="match_parent"
+                    android:layout_margin="2dp"
+                    android:layout_weight="1"
+                    android:weightSum="4"
+                    android:orientation="horizontal">
+
+
+                    <Button
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_marginEnd="2dp"
+                        android:id="@+id/btnStartRecording"
+                        android:layout_weight="1"
+                        android:onClick="buttonClickHandler"
+                        android:drawableTop="@drawable/icons8_microphone_48"
+                        android:text="START"
+
+                        />
+
+                    <Button
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_marginEnd="2dp"
+                        android:id="@+id/btnPauseRecording"
+
+                        android:onClick="buttonClickHandler"
+                        android:drawableTop="@drawable/icons8_pause_48"
+
+                        android:text="PAUSE"
+                        android:layout_weight="1"
+
+
+                        />
+
+                    <Button
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_marginEnd="2dp"
+                        android:id="@+id/btnStopRecording"
+                        android:onClick="buttonClickHandler"
+
+                        android:drawableTop="@drawable/icons8_stop_48"
+
+                        android:layout_weight="1"
+
+                        android:text="STOP"
+
+                        />
+
+                    <Button
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_marginEnd="2dp"
+                        android:id="@+id/btnPlayRecording"
+
+                        android:onClick="buttonClickHandler"
+
+                        android:drawableTop="@drawable/icons8_play_48"
+                        android:text="PLAY"
+                        android:layout_weight="1"
+
+
+                        />
+                </LinearLayout>
+            </LinearLayout> <!-- END of RECORDING BUTTONS -->
+
+            <!-- Layout to hold camera buttons -->
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:id="@+id/layoutCameraRelative"
+                android:layout_margin="5dp"
+                android:orientation="vertical"
+                android:background="@color/colorBlue"
+                android:layout_height="wrap_content"
+
+                >
+
+                <LinearLayout
+                    android:id="@+id/linearCameraButtonHolder"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_margin="2dp"
+
+                    android:layout_alignParentTop="true"
+
+                    android:orientation="horizontal">
+
+
+
+                    <Button
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:text="Take a Picture of Interviewee"
+                        android:drawableTop="@drawable/icons8_images"
+                        android:layout_weight="1"
+                        android:id="@+id/btnCapturePicture"
+
+                        />
+
+
+                </LinearLayout>
+                <!-- To display picture taken -->
+                <TextView
+                    android:id="@+id/tvImage"
+                    style="@style/App_HeadingTextStyle"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@+id/linearCameraButtonHolder"
+                    android:text="Images" />
+
+
+
+                <ImageView
+                    android:id="@+id/imgPreview"
+                    android:contentDescription="Image will be displayed here"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@id/tvImage"
+                    android:visibility="visible" />
+
+
+                <TextView
+                    android:id="@+id/tvResponse"
+                    style="@style/App_HeadingTextStyle"
+                    android:layout_alignParentBottom="true"
+                    android:layout_below="@id/imgPreview"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Response" />
+
+
+            </RelativeLayout>
+
+
+        </LinearLayout>
+
+    </ScrollView>
+
+
+
+    <!-- View to hold submit buttons -->
+    <LinearLayout
+        android:id="@+id/linearButtonLayout"
+        android:layout_width="match_parent"
+
+        android:layout_alignBottom="@id/scrollViewReport"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:weightSum="5">
+
+        <Button
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:text="CANCEL"
+            android:layout_weight="2"
+            android:textColor="@color/colorWhite"
+            android:background="@drawable/roundedbuttonback"
+            android:drawableStart="@drawable/icons8_back"
+
+
+            />
+
+        <Button
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:text="SUBMIT"
+            android:textColorHighlight="@color/colorWhite"
+            android:background="@drawable/roundedbutton"
+            android:layout_weight="3"
+            android:onClick="submitButtonClick"
+            android:drawableEnd="@drawable/icons8_upload"
+            android:drawablePadding="5dp"
+            android:paddingEnd="10dp"
+            android:paddingStart="10dp"
+            android:gravity="center"
+            />
+
+    </LinearLayout>
+
+
+
+
+
+</RelativeLayout>

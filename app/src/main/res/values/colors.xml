@@ -1,11 +1,23 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <color name="colorPrimary">#3F51B5</color>
-    <color name="colorPrimaryDark">#303F9F</color>
+    <color name="colorPrimary">#2e8fe9</color>
+    <color name="colorPrimaryDark">#4f64ed</color>
     <color name="colorAccent">#FF4081</color>
     <color name="colorButtonSuccess">#5efa04</color>
     <color name="colorMainBackground">#d9d1a7</color>
     <color name="colorWhite">#ffffff</color>
     <color name="colorWhiteB">#fafafa</color>
+    <color name="colorQuestions">#4db8d2</color>
+    <color name="colorBasicInfo">#f2ec6e</color>
+
+
+
+    <color name="colorBlue">#2e8fe9</color>
+    <color name="colorSkyBlue">#2ee9a8</color>
+    <color name="colorQues">#5b92f4d1</color>
+    <color name="colorFirstBlock">#2196F3</color>
+    <color name="colorSecondBlock">#673AB7</color>
+    <color name="colorThirdBlock">#9C27B0</color>
+    <color name="colorFourthBlock">#E91E63</color>
 
 </resources>

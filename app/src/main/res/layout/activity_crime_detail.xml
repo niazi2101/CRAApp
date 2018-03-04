@@ -9,15 +9,38 @@
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
+        android:gravity="start"
         android:layout_above="@id/linearButtonLayout"
         android:background="@color/colorWhiteB">
 
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Crime Description:"            android:layout_alignParentTop="true"
+            android:id="@+id/tvFirebaseRegID"
+            android:text="Firebase ID:"
+            android:layout_alignParentTop="true"/>
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/tvFirebasePush"
+            android:text="Firebase Push Message"
+            android:layout_below="@id/tvFirebaseRegID"
+            android:layout_centerHorizontal="true"
+            />
+
+
+
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Crime Description:"
             android:id="@+id/tvCrimeDescHeader"
+            android:layout_below="@id/tvFirebasePush"
+            android:layout_marginTop="20dp"
             style="@style/App_HeadingTextStyle"/>
+
 
         <TextView
             android:layout_centerHorizontal="true"
@@ -28,6 +51,9 @@
             android:text="Desciption will be displayed on this line"
             android:id="@+id/tvCrimeDesc"
             style="App_DescriptionsTextStyle"/>
+
+
+
 
         <TextView
             android:layout_width="wrap_content"
